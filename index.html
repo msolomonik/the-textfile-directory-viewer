@@ -58,12 +58,9 @@
   <input type="text" id="llmQuery" placeholder="Enter your question" aria-label="LLM Query" style="position: fixed; top: 40px; right: 270px; width: 250px; padding: 5px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; z-index: 1000;" />
   <button id="summarizeBtn" style="position: fixed; top: 10px; right: 10px; padding: 5px 10px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; z-index: 1000;">Summarize</button>
   <button id="queryBtn" style="position: fixed; top: 40px; right: 10px; padding: 5px 10px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; z-index: 1000;">Ask</button>
-  <div style="position: relative; width: 60%;">
-    <button id="copyContentBtn" title="Copy file content" style="position: absolute; top: 5px; right: 5px; z-index: 1001; padding: 3px 8px; font-family: monospace; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;">Copy</button>
-    <main id="fileContent" aria-live="polite" tabindex="0" style="padding-top: 30px;">
-      Select a text file to view its contents.
-    </main>
-  </div>
+  <main id="fileContent" aria-live="polite" tabindex="0">
+    Select a text file to view its contents.
+  </main>
   <main id="summaryContent" aria-live="polite" tabindex="0" style="white-space: pre-wrap;">
   </main>
 
@@ -325,20 +322,6 @@
     } catch (error) {
       alert("Error during question answering: " + error.message);
     }
-  });
-
-  // Add event listener for copy content button
-  document.getElementById("copyContentBtn").addEventListener("click", () => {
-    const content = document.getElementById("fileContent").textContent;
-    if (!content) {
-      alert("No content to copy.");
-      return;
-    }
-    navigator.clipboard.writeText(content).then(() => {
-      alert("File content copied to clipboard.");
-    }).catch(err => {
-      alert("Failed to copy content: " + err);
-    });
   });
 </script>
 </body>

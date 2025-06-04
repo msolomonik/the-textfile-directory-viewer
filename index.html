@@ -52,7 +52,8 @@
   <nav id="fileList" aria-label="File list">
     <ul id="fileTree"></ul>
   </nav>
-  <input type="text" id="openaiApiKey" placeholder="OpenAI API Key" aria-label="OpenAI API Key" style="position: fixed; top: 10px; right: 270px; width: 250px; padding: 5px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; z-index: 1000;" />
+  <label for="openaiApiKey" style="position: fixed; top: 10px; right: 530px; font-family: monospace; font-size: 14px; color: #333; z-index: 1000; user-select: none;">OPENAI API Key:</label>
+  <input type="text" id="openaiApiKey" placeholder="Enter your OpenAI API key" aria-label="OpenAI API Key" style="position: fixed; top: 10px; right: 270px; width: 250px; padding: 5px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; z-index: 1000;" />
   <button id="summarizeBtn" style="position: fixed; top: 10px; right: 10px; padding: 5px 10px; font-family: monospace; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; z-index: 1000;">Summarize</button>
   <main id="fileContent" aria-live="polite" tabindex="0">
     Select a text file to view its contents.

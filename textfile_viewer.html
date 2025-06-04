@@ -161,7 +161,12 @@
     // Fetch top-level directories and populate selector
     async function loadTopDirectories() {
       try {
-        const {folders} = await fetchDirectory(baseUrl);
+        const res = await fetch(baseUrl);
+        if (!res.ok) throw new Error("Failed to fetch top-level directory page");
+        const text = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, "text/html");
+
         // Clear existing options
         dirSelector.innerHTML = "";
         // Add placeholder option
@@ -172,10 +177,14 @@
         placeholder.selected = true;
         dirSelector.appendChild(placeholder);
 
-        for (const folder of folders) {
+        // The directory links are in <b> elements with <a> inside, e.g. <b><a href="100">100</a></b>
+        const boldLinks = Array.from(doc.querySelectorAll("b > a"));
+        for (const a of boldLinks) {
+          const href = a.getAttribute("href");
+          if (!href || href.endsWith(".html")) continue; // skip non-directory links
           const option = document.createElement("option");
-          option.value = baseUrl + folder.href;
-          option.textContent = folder.name;
+          option.value = baseUrl + href + (href.endsWith("/") ? "" : "/");
+          option.textContent = a.textContent.trim();
           dirSelector.appendChild(option);
         }
       } catch (e) {

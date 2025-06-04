@@ -47,7 +47,7 @@
 
 <script>
   // Base URL of the directory to browse
-  const baseUrl = "https://pub.deadnet.se/the_textfile_directory/music/";
+  let baseUrl = "https://pub.deadnet.se/the_textfile_directory/";
 
   // Fetch and parse directory listing HTML, extract files and folders
   async function fetchDirectory(url) {
@@ -151,7 +151,48 @@
   // Initialize
   (async () => {
     const fileTree = document.getElementById("fileTree");
-    await buildTree(fileTree, baseUrl);
+
+    // Create directory selector dropdown
+    const dirSelector = document.createElement("select");
+    dirSelector.style.width = "100%";
+    dirSelector.style.marginBottom = "10px";
+    dirSelector.setAttribute("aria-label", "Select directory to view");
+
+    // Fetch top-level directories and populate selector
+    async function loadTopDirectories() {
+      try {
+        const {folders} = await fetchDirectory(baseUrl);
+        // Clear existing options
+        dirSelector.innerHTML = "";
+        // Add placeholder option
+        const placeholder = document.createElement("option");
+        placeholder.textContent = "Select a directory...";
+        placeholder.value = "";
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        dirSelector.appendChild(placeholder);
+
+        for (const folder of folders) {
+          const option = document.createElement("option");
+          option.value = baseUrl + folder.href;
+          option.textContent = folder.name;
+          dirSelector.appendChild(option);
+        }
+      } catch (e) {
+        fileTree.textContent = "Error loading top-level directories: " + e.message;
+      }
+    }
+
+    dirSelector.addEventListener("change", async () => {
+      // Clear current tree and file content
+      fileTree.innerHTML = "";
+      document.getElementById("fileContent").textContent = "Select a text file to view its contents.";
+      baseUrl = dirSelector.value;
+      await buildTree(fileTree, baseUrl);
+    });
+
+    fileTree.parentNode.insertBefore(dirSelector, fileTree);
+    await loadTopDirectories();
   })();
 </script>
 </body>

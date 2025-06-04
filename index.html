@@ -245,8 +245,10 @@
       }
       const data = await response.json();
       // The summary is in data.choices[0].message.content
-      // We do not display it yet as per instructions
-      console.log("Summary received:", data.choices[0].message.content);
+      const summary = data.choices[0].message.content;
+      // Display the summary on the right hand side
+      const contentEl = document.getElementById("fileContent");
+      contentEl.textContent = summary;
     } catch (error) {
       alert("Error during summarization: " + error.message);
     }
